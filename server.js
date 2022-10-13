@@ -7,7 +7,7 @@ app.get('/', (req, res) => {
 });
 app.get('/api', (req, res) => {
   console.log(req.query);
-  res.send('api');
+  res.send(req.query);
 });
 
 app.listen(port, () => {
