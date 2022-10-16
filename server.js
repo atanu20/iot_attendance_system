@@ -14,10 +14,10 @@ app.get('/', (req, res) => {
   res.send('IoT Based Attendance system');
 });
 app.get('/api', async (req, res) => {
-  const { name } = req.query;
-  console.log(name);
+  const { data0 } = req.query;
+  console.log(data0);
   const newUser = new usertable({
-    name,
+    name: data0,
   });
 
   await newUser.save();
