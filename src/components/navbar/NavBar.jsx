@@ -32,7 +32,7 @@ const NavBar = () => {
           </div>
           <div className="right_navbar">
             <div className="right_bell">
-              <div>1</div>
+              <div>0</div>
               <i className="fa fa-bell "></i>
             </div>
             <div className="right_navbar_inner">

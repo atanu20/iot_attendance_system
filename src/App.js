@@ -10,6 +10,9 @@ import Footer from './components/footer/Footer';
 import SHome from './pages/student/shome/SHome';
 import SAccount from './pages/student/saccount/SAccount';
 import SAttendance from './pages/student/sattendance/SAttendance';
+import TAccount from './pages/teacher/taccount/TAccount';
+import TAttendance from './pages/teacher/tattendance/TAttendance';
+import THome from './pages/teacher/thome/THome';
 
 const App = () => {
   const [navstatus, setNavStatus] = useState(false);
@@ -20,7 +23,7 @@ const App = () => {
       window.location.pathname.split('/').includes('student') ||
       window.location.pathname.split('/').includes('admin')
     ) {
-      console.log('ok');
+      // console.log('ok');
       setNavStatus(true);
     }
   }, []);
@@ -43,6 +46,10 @@ const App = () => {
         <Route exact path="/dashboard/student" component={SHome} />
         <Route exact path="/student/attendance" component={SAttendance} />
         <Route exact path="/student/account" component={SAccount} />
+
+        <Route exact path="/dashboard/teacher" component={THome} />
+        <Route exact path="/teacher/account" component={TAccount} />
+        <Route exact path="/teacher/attendance" component={TAttendance} />
 
         <Route component={Error} />
       </Switch>
