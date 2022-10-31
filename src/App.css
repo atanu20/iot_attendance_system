@@ -1,0 +1,204 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300;400;500;600;700&display=swap');
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: 'Roboto Slab', sans-serif;
+}
+.fn-color{
+  color: blueviolet;
+}
+.fn_14{
+  font-size: 14px;
+}
+.fn_12{
+  font-size: 12px;
+}
+.fn_10{
+  font-size: 10px;
+}
+.fn_18{
+  font-size: 18px;
+}
+.fn_24{
+  font-size: 24px;
+}
+
+.fb_600{
+  font-weight: 600;
+}
+.fb_700{
+  font-weight: 700;
+}
+.text_grey{
+  color: rgb(89, 89, 89);
+}
+p{
+  /* line-height: 24px; */
+  margin: 0 !important;
+  
+}
+
+.error {
+  width: 100%;
+  display: grid;
+  place-items: center;
+  background-color: ghostwhite;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 999;
+}
+.error h1 {
+  font-size: 60px;
+  font-weight: 700;
+  text-shadow: 0px 0px 5px rgb(226, 131, 147);
+}
+
+
+
+
+
+
+
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+  background-color: rgb(199, 194, 194);
+}
+
+.card {
+  border: none;
+  border-radius: 0;
+  box-shadow: 0px 5px 15px gainsboro;
+}
+.cur {
+  cursor: pointer;
+}
+
+.form-control {
+  border:1px solid blueviolet !important;
+  
+}
+.form-control:focus{
+  
+box-shadow: none;
+  
+}
+
+
+
+
+.body_100{
+  width: 100%;
+  min-height: 100vh;
+  padding: 75px 0px 35px 0px;
+  background-color: ghostwhite;
+}
+.body_100_flex{
+  width: 100%;
+  min-height: 100vh;
+  padding: 75px 0px 35px 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: ghostwhite;
+}
+.body_80{
+  width: 100%;
+  min-height: 80vh;
+  padding: 75px 0px 35px 0px;
+  background-color: ghostwhite;
+}
+.body_80_flex{
+  width: 100%;
+  min-height: 80vh;
+  padding: 75px 0px 35px 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: ghostwhite;
+}
+.btn_vio_big{
+  background-color: blueviolet;
+  border-radius:0;
+  padding: 8px 20px;
+  outline: none;
+  box-shadow: none;
+  color:white
+}
+
+.btn_vio_sml{
+  background-color: blueviolet;
+  border-radius:0;
+  outline: none;
+  box-shadow: none;
+  color:white
+  
+}
+
+.modbox{
+  width: 100%;
+  height: 100%;
+  background-color: rgb(0,0,0,0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+}
+
+.bigbox{
+  width:600px ;
+  height: auto;
+  background-color: white;
+  /* padding: 15px; */
+  position: relative;
+  padding: 15px;
+}
+.btn_close{
+  width: 25px;
+  height: 25px;
+  background-color: blueviolet;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top:-10px;
+  right: -10px;
+  border-radius: 50%;
+  color:white;
+  cursor: pointer;
+}
+
+
+@media (max-width:700px) {
+  .bigbox{
+    width:90% ;
+    
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+.MuiCircularProgress-root{
+  color:blueviolet !important;
+}

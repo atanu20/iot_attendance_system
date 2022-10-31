@@ -1,0 +1,21 @@
+.userimg{
+    width: 100px;
+    height: 100px;
+  border-radius: 50%;
+  }
+
+  .textb{
+    width: 120px;
+    height: 35px;
+    background: blueviolet;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color:white;
+    cursor: pointer;
+    font-size: 12px;
+    border-radius: 30px;
+  }
+  .textb:hover{
+    background-color: rgb(126, 9, 236);
+  }

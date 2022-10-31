@@ -1,0 +1,83 @@
+.search_filter .searchbox {
+    width: 100%;
+    height: auto;
+    padding: 15px;
+    background: #fff;
+    box-shadow: 0px 2px 5px gainsboro;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+ .search_filter .inputbox {
+    width: 100%;
+    height: 40px;
+  }
+  .search_filter input,
+  .search_filter select {
+    padding: 10px 20px;
+    border: none !important;
+  }
+  .search_filter .inputone {
+    border-bottom: none !important;
+    border-left: none !important;
+    border-top: none !important;
+    border-right: solid 1px grey !important;
+  }
+  .search_filter input:focus,
+  .search_filter select:focus {
+    outline: none !important;
+  }
+  
+  .search_filter button{
+    background-color: blueviolet;
+  border-radius:0;
+  padding: 8px 20px;
+  outline: none;
+  box-shadow: none;
+  border: none;
+  color:white;
+  }
+
+  .table thead th {
+   
+    border-bottom: 1px solid #dee2e6 !important;
+}
+ 
+tbody tr td{
+  min-width: 150px;
+ 
+}
+.table td, .table th {
+  
+  border-top: none !important;
+}
+
+
+
+  @media (max-width: 500px) {
+    .search_filter .searchbox {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+    .search_filter .inputone {
+      border-right: none !important;
+      border-left: none !important;
+      border-top: none !important;
+      border-bottom: solid 0.5px rgba(199, 199, 199, 0.5) !important;
+      margin-bottom: 15px;
+    }
+    .search_filter  select {
+      border-right: none !important;
+      border-left: none !important;
+      border-top: none !important;
+      border-bottom: solid 0.5px rgba(199, 199, 199, 0.5) !important;
+      margin-bottom: 15px;
+    }
+    .search_filter button {
+        width: 100% !important;
+        
+      }
+   
+  }
