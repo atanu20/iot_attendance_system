@@ -13,6 +13,10 @@ import SAttendance from './pages/student/sattendance/SAttendance';
 import TAccount from './pages/teacher/taccount/TAccount';
 import TAttendance from './pages/teacher/tattendance/TAttendance';
 import THome from './pages/teacher/thome/THome';
+import Register from './pages/student/sauth/Register';
+import Login from './pages/student/sauth/Login';
+import TRegister from './pages/teacher/tauth/Register';
+import TLogin from './pages/teacher/tauth/Login';
 
 const App = () => {
   const [navstatus, setNavStatus] = useState(false);
@@ -46,10 +50,14 @@ const App = () => {
         <Route exact path="/dashboard/student" component={SHome} />
         <Route exact path="/student/attendance" component={SAttendance} />
         <Route exact path="/student/account" component={SAccount} />
+        <Route exact path="/student/register" component={Register} />
+        <Route exact path="/student/login" component={Login} />
 
         <Route exact path="/dashboard/teacher" component={THome} />
         <Route exact path="/teacher/account" component={TAccount} />
         <Route exact path="/teacher/attendance" component={TAttendance} />
+        <Route exact path="/teacher/register" component={TRegister} />
+        <Route exact path="/teacher/login" component={TLogin} />
 
         <Route component={Error} />
       </Switch>

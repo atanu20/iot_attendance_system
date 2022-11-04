@@ -9,6 +9,9 @@
 .fn-color{
   color: blueviolet;
 }
+.bg_col{
+  background-color: blueviolet !important;
+}
 .fn_14{
   font-size: 14px;
 }
