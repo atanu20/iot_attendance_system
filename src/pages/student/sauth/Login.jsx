@@ -1,8 +1,11 @@
 import { CircularProgress } from '@mui/material';
+import axios from 'axios';
 import React from 'react';
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { apilink } from '../../../data/fdata';
 import './Auth.css';
+import Cookies from 'js-cookie';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -12,9 +15,27 @@ const Login = () => {
   const [msg, setMsg] = useState('');
   const [loading, setLoading] = useState(false);
   const his = useHistory();
-  const onSub = (e) => {
+  const onSub = async (e) => {
     e.preventDefault();
     setLoading(true);
+
+    const res = await axios.post(`${apilink}/api/student/login`, {
+      email,
+      password,
+    });
+
+    if (res.data.success) {
+      Cookies.set('_tmsl_access_user_tokon_', res.data.access_token, {
+        expires: 1,
+      });
+      localStorage.setItem('_tmsl_access_user_login', true);
+      window.location.href = '/dashboard/student';
+      // his.push('/dashboard/student');
+    } else {
+      setStatus(true);
+      setMsg(res.data.msg);
+    }
+
     setLoading(false);
   };
 

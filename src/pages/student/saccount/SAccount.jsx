@@ -1,10 +1,18 @@
 import { CircularProgress } from '@mui/material';
-import React from 'react';
+import axios from 'axios';
+import Cookies from 'js-cookie';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import SideNav from '../../../components/sidenavbar/SideNav';
+import { apilink } from '../../../data/fdata';
 import './SAccount.css';
+import { useAlert } from 'react-alert';
+
 const SAccount = () => {
+  const tokon = Cookies.get('_tmsl_access_user_tokon_');
+  const [userDet, setUserDet] = useState([]);
+
   const [imgloading, setImgLoading] = useState(false);
   const [postimg, setPostimg] = useState([]);
   const [showstatus, setShowStatus] = useState(false);
@@ -14,9 +22,36 @@ const SAccount = () => {
   const [msg, setMsg] = useState('');
   const [loading, setLoading] = useState(false);
 
+  const [pstatus, setPStatus] = useState(false);
+  const [pmsg, setPMsg] = useState('');
+  const [ploading, setPLoading] = useState(false);
+
   const [email, setEmail] = useState('');
+  const [batch, setBatch] = useState('');
   const [phone, setPhone] = useState('');
   const [dept, setDept] = useState('');
+
+  const his = useHistory();
+  const alert = useAlert();
+  useEffect(async () => {
+    const res = await axios.get(`${apilink}/auth/isVerify`, {
+      headers: {
+        Authorization: tokon,
+      },
+    });
+    if (!res.data.success) {
+      Cookies.remove('_tmsl_access_user_tokon_');
+      localStorage.removeItem('_tmsl_access_user_login');
+      console.clear();
+      window.location.href = `/student/login`;
+    } else {
+      setEmail(res.data.userInfo.email);
+      setBatch(res.data.userInfo.batch);
+      setDept(res.data.userInfo.dept);
+      setPhone(res.data.userInfo.phone);
+      setUserDet(res.data.userInfo);
+    }
+  }, []);
 
   const handelImg = async (e) => {
     const { files } = e.target;
@@ -36,15 +71,27 @@ const SAccount = () => {
           formData.append('file', files[0]);
           // console.log(files);
 
-          // const res = await axios.post(
-          //   `${apilink}/api/upload/avatar`,
-          //   formData,
-          //   {
-          //     headers: {
-          //       Authorization: hecord_tokon,
-          //     },
-          //   }
-          // );
+          const res = await axios.patch(
+            `${apilink}/api/student/updateImage`,
+            formData,
+            {
+              headers: {
+                Authorization: tokon,
+              },
+            }
+          );
+          if (res.data.success) {
+            getmyinfo();
+          } else {
+            if (res.data.msg == 'Invalid Authentication.') {
+              Cookies.remove('_tmsl_access_user_tokon_');
+              localStorage.removeItem('_tmsl_access_user_login');
+              console.clear();
+              window.location.href = `/student/login`;
+            } else {
+              alert.error(res.data.msg);
+            }
+          }
 
           setImgLoading(false);
         }
@@ -54,26 +101,108 @@ const SAccount = () => {
     }
   };
 
-  const onUpdatePassword = (e) => {
+  const onUpdatePassword = async (e) => {
+    e.preventDefault();
+    setPLoading(true);
+    if (npassword.length < 7) {
+      setPStatus(true);
+      setPMsg('Password should be more than 6 characters');
+    } else if (npassword !== cpassword) {
+      setPStatus(true);
+      setPMsg('Both Password not matched');
+    } else {
+      const res = await axios.patch(
+        `${apilink}/api/student/updatePassword`,
+        {
+          npassword,
+        },
+        {
+          headers: {
+            Authorization: tokon,
+          },
+        }
+      );
+      if (res.data.success) {
+        Cookies.remove('_tmsl_access_user_tokon_');
+        localStorage.removeItem('_tmsl_access_user_login');
+        console.clear();
+        window.location.href = `/student/login`;
+      } else {
+        alert.error('res.data.msg');
+      }
+    }
+    setPLoading(false);
+  };
+
+  const onUpdateAccount = async (e) => {
     e.preventDefault();
     setLoading(true);
-    if (npassword.length < 7) {
+
+    if (batch.split('-').length != 2 || batch.length != 9) {
       setStatus(true);
-      setMsg('Password should be more than 6 characters');
-    } else if (npassword !== cpassword) {
+      setMsg('Batch Year should be like this yyyy-yyyy');
+    } else if (batch.split('-')[0] >= batch.split('-')[1]) {
       setStatus(true);
-      setMsg('Both Password not matched');
+      setMsg('First year < Final Year');
     } else {
-      console.log(npassword, cpassword);
+      const res = await axios.patch(
+        `${apilink}/api/student/updateDetails`,
+        {
+          batch,
+          phone,
+          dept,
+        },
+        {
+          headers: {
+            Authorization: tokon,
+          },
+        }
+      );
+      if (res.data.success) {
+        getmyinfo();
+      } else {
+        if (res.data.msg == 'Invalid Authentication.') {
+          Cookies.remove('_tmsl_access_user_tokon_');
+          localStorage.removeItem('_tmsl_access_user_login');
+          console.clear();
+          window.location.href = `/student/login`;
+        } else {
+          alert.error(res.data.msg);
+        }
+      }
     }
+
     setLoading(false);
   };
 
-  const onUpdateAccount = (e) => {
-    e.preventDefault();
-    setLoading(true);
+  const getmyinfo = async () => {
+    const res = await axios.get(
+      `${apilink}/api/student/infor`,
 
-    setLoading(false);
+      {
+        headers: {
+          Authorization: tokon,
+        },
+      }
+    );
+    if (res.data.success) {
+      setEmail(res.data.userInfo.email);
+      setBatch(res.data.userInfo.batch);
+      setDept(res.data.userInfo.dept);
+      setPhone(res.data.userInfo.phone);
+      setUserDet(res.data.userInfo);
+      setStatus(true);
+      setMsg('Update Successfully');
+    } else {
+      if (res.data.msg == 'Invalid Authentication.') {
+        Cookies.remove('_tmsl_access_user_tokon_');
+        localStorage.removeItem('_tmsl_access_user_login');
+        console.clear();
+        window.location.href = `/student/login`;
+      } else {
+        alert.error(res.data.msg);
+      }
+    }
   };
 
   return (
@@ -97,7 +226,11 @@ const SAccount = () => {
                         ) : (
                           <>
                             <img
-                              src="https://res.cloudinary.com/du9emrtpi/image/upload/v1660128327/avatar/user_beo1wf.png"
+                              src={
+                                userDet?.profileimg
+                                  ? userDet?.profileimg
+                                  : 'https://res.cloudinary.com/du9emrtpi/image/upload/v1660128327/avatar/user_beo1wf.png'
+                              }
                               alt="logo"
                               className="userimg d-block mx-auto"
                             />
@@ -122,8 +255,11 @@ const SAccount = () => {
                       </div>
                     </div>
                     <div className="text-center mt-3">
-                      <h5 className="m-0">atanu jaan</h5>
-                      <span className="fn_12">Member Since: 12/22/2022</span>
+                      <h5 className="m-0">{userDet?.name}</h5>
+                      <span className="fn_12">
+                        Member Since:{' '}
+                        {new Date(userDet?.date).toLocaleDateString()}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -139,6 +275,22 @@ const SAccount = () => {
                     </button>
                   </div>
                   <hr />
+                  <br />
+                  {status ? (
+                    <>
+                      <div class="alert alert-warning alert-dismissible">
+                        <button
+                          type="button"
+                          class="close"
+                          data-dismiss="alert"
+                          onClick={() => setStatus(false)}
+                        >
+                          &times;
+                        </button>
+                        {msg}
+                      </div>
+                    </>
+                  ) : null}
 
                   <form action="" onSubmit={onUpdateAccount}>
                     <div class="form-group">
@@ -148,6 +300,7 @@ const SAccount = () => {
                         name="email"
                         placeholder="Enter Email"
                         required
+                        readOnly
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                       />
@@ -164,6 +317,19 @@ const SAccount = () => {
                         onChange={(e) => setPhone(e.target.value)}
                       />
                     </div>
+
+                    <div class="form-group">
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="batch"
+                        placeholder="Enter Batch (2019-2023)"
+                        required
+                        value={batch}
+                        onChange={(e) => setBatch(e.target.value)}
+                      />
+                    </div>
+
                     <div class="form-group">
                       <select
                         class="form-control"
@@ -211,18 +377,18 @@ const SAccount = () => {
             </div>
             <h5 className="fn-color">Update Password</h5>
             <br />
-            {status ? (
+            {pstatus ? (
               <>
                 <div class="alert alert-warning alert-dismissible">
                   <button
                     type="button"
                     class="close"
                     data-dismiss="alert"
-                    onClick={() => setStatus(false)}
+                    onClick={() => setPStatus(false)}
                   >
                     &times;
                   </button>
-                  {msg}
+                  {pmsg}
                 </div>
               </>
             ) : null}
@@ -253,16 +419,16 @@ const SAccount = () => {
                 <button
                   type="submit"
                   className={
-                    loading
+                    ploading
                       ? 'dis btn  btn_vio_big fn_12'
                       : 'btn  btn_vio_big fn_12'
                   }
-                  disabled={loading}
+                  disabled={ploading}
                 >
                   Update Password
                 </button>
               </div>
-              {loading && (
+              {ploading && (
                 <div className="text-center p-2">
                   <CircularProgress color="success" size={35} />
                 </div>

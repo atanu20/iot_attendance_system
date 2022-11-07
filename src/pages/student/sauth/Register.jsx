@@ -2,8 +2,9 @@ import { CircularProgress } from '@mui/material';
 import React from 'react';
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { apilink } from '../../../data/fdata';
 import './Auth.css';
-
+import axios from 'axios';
 const Register = () => {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
@@ -14,9 +15,29 @@ const Register = () => {
   const [msg, setMsg] = useState('');
   const [loading, setLoading] = useState(false);
   const his = useHistory();
-  const onSub = (e) => {
+  const onSub = async (e) => {
     e.preventDefault();
     setLoading(true);
+
+    const res = await axios.post(`${apilink}/api/student/register`, {
+      email,
+      name,
+      id,
+      password,
+    });
+    // console.log(res.data);
+    if (res.data.success) {
+      setStatus(true);
+      setMsg(res.data.msg);
+      setEmail('');
+      setId('');
+      setPassword('');
+      setName('');
+    } else {
+      setStatus(true);
+      setMsg(res.data.msg);
+    }
+
     setLoading(false);
   };
 

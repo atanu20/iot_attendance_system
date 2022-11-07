@@ -1,5 +1,6 @@
 import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
+import Cookies from 'js-cookie';
 const studentNav = [
   {
     display: 'Dashboard',
@@ -34,6 +35,13 @@ const SideNav = () => {
   const { pathname } = useLocation();
   const active = studentNav.findIndex((e) => e.path === pathname);
 
+  const logout = (pathlink) => {
+    Cookies.remove('_tmsl_access_user_tokon_');
+    localStorage.removeItem('_tmsl_access_user_login');
+    console.clear();
+    window.location.href = `/${pathlink}/login`;
+  };
+
   if (window.location.pathname.split('/').includes('teacher')) {
     const tactive = teacherNav.findIndex((e) => e.path === pathname);
     return (
@@ -54,7 +62,7 @@ const SideNav = () => {
           })}
         </div>
         <div className="side_navbar_bottom">
-          <p>
+          <p onClick={() => logout('teacher')}>
             <i className="fa fa-sign-out"></i> Logout
           </p>
         </div>
@@ -80,7 +88,7 @@ const SideNav = () => {
         })}
       </div>
       <div className="side_navbar_bottom">
-        <p>
+        <p onClick={() => logout('student')}>
           <i className="fa fa-sign-out"></i> Logout
         </p>
       </div>

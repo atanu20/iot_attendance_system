@@ -16,20 +16,21 @@ const options = {
   },
 };
 
-const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+const BarChat = ({ barData }) => {
+  // const lab =
+  // console.log(lab);
+  const labels = barData.map((val) => val._id);
 
-const data = {
-  labels,
-  datasets: [
-    {
-      label: 'Dataset 1',
-      data: [100, 150, 250, 630, 750, 150, 120],
-      backgroundColor: 'rgba(138,43,226, 0.5)',
-    },
-  ],
-};
-
-const BarChat = () => {
+  const data = {
+    labels,
+    datasets: [
+      {
+        label: 'Dataset',
+        data: barData.map((val) => val.totalCount),
+        backgroundColor: 'rgba(138,43,226, 0.5)',
+      },
+    ],
+  };
   return (
     <>
       <Bar options={options} data={data} />
