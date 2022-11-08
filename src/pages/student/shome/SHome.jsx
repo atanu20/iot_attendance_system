@@ -69,7 +69,7 @@ const SHome = () => {
   const attendanceList = async (sem) => {
     setGraphShow(false);
     const res = await axios.get(
-      `${apilink}/api/student/getAttendanceList/${sem}`,
+      `${apilink}/api/student/getAttendanceListGraph/${sem}`,
       {
         headers: {
           Authorization: tokon,

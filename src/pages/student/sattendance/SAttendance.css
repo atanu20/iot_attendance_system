@@ -81,3 +81,8 @@ tbody tr td{
       }
    
   }
+
+
+  .box_height{
+    max-height: 500px;
+  }
