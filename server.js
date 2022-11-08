@@ -33,6 +33,7 @@ app.get('/', (req, res) => {
 
 app.get('/api', async (req, res) => {
   // const { data0 } = req.query;
+  //https://iot-attendances.herokuapp.com/api/student/uploadPresent?data0=Samrat%20Patra&data1=13000219052&data2=IT-A&data3=2019-2023&data4=HSMC701
   // console.log(data0);
   // const newUser = new usertable({
   //   name: data0,

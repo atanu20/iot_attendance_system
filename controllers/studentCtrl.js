@@ -238,7 +238,7 @@ const studentCtrl = {
       return res.json({ success: false, msg: err.message });
     }
   },
-  getAttendanceList: async (req, res) => {
+  getAttendanceListGraph: async (req, res) => {
     try {
       const sem = req.params.sem;
       // console.log(req.user.studentId);
@@ -258,6 +258,21 @@ const studentCtrl = {
       ]);
 
       return res.json({ success: true, attendanceList });
+    } catch (err) {
+      return res.json({ success: false, msg: err.message });
+    }
+  },
+  getAttendanceList: async (req, res) => {
+    try {
+      // const sem = req.params.sem;
+      // console.log(req.user.studentId);
+      const attendanceLists = await attendanceTable
+        .find({
+          studentId: req.user.studentId,
+          // currentSem: sem,
+        })
+        .sort({ presentDate: -1 });
+      return res.json({ success: true, attendanceLists });
     } catch (err) {
       return res.json({ success: false, msg: err.message });
     }

@@ -16,7 +16,12 @@ router.patch('/updateImage', auth, studentCtrl.updateImage);
 
 router.post('/getSubjectListInSem', auth, studentCtrl.getSubjectListInSem);
 router.get('/uploadPresent', studentCtrl.uploadPresent);
-router.get('/getAttendanceList/:sem', auth, studentCtrl.getAttendanceList);
+router.get(
+  '/getAttendanceListGraph/:sem',
+  auth,
+  studentCtrl.getAttendanceListGraph
+);
+router.get('/getAttendanceList', auth, studentCtrl.getAttendanceList);
 // Social Login
 
 module.exports = router;
